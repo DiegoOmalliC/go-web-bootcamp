@@ -20,18 +20,16 @@ func main() {
 	})
 	router.POST("/saludar", func(c *gin.Context) {
 		var s Saludo
-		if err := c.BindJSON(&s); err != nil {
+		if err := c.ShouldBindJSON(&s); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
 			})
 			return
 		}
 		mensaje := fmt.Sprintf("Hola %v %v", s.Name, s.LastName)
-
 		c.JSON(http.StatusOK, gin.H{"mensaje": mensaje})
 	})
 	if err = router.Run(":8080"); err != nil {
 		panic(err)
 	}
-	router.Run()
 }
